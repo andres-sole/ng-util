@@ -17,6 +17,7 @@ import { fromEvent, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { NuMonacoEditorConfig, NU_MONACO_EDITOR_CONFIG } from './monaco-editor.config';
 import { NuMonacoEditorEvent, NuMonacoEditorEventType } from './monaco-editor.types';
+import { DPMXLTokenProvider } from './DPMXLTokenProvider';
 
 let loadedMonaco = false;
 let loadPromise: Promise<void>;
@@ -95,6 +96,91 @@ export abstract class NuMonacoEditorBase implements AfterViewInit, OnChanges, On
       const baseUrl = this._config.baseUrl;
       const amdLoader = () => {
         win.require.config({ paths: { vs: `${baseUrl}/vs` } });
+
+        this.options = { theme: 'dpm-xl-black', ...this.options };
+        const getDpmXlCompletionProvider = (monaco: any) => {
+          return {
+            provideCompletionItems: () => {
+              var suggestions = [
+                {
+                  label: 'with',
+                  kind: monaco.languages.CompletionItemKind.Text,
+                  insertText: 'with',
+                },
+                {
+                  label: 'sum',
+                  kind: monaco.languages.CompletionItemKind.Keyword,
+                  insertText: 'sum(${1:operand} group by ${2:group_by})',
+                  insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+                },
+                {
+                  label: 'cell_reference',
+                  kind: monaco.languages.CompletionItemKind.Snippet,
+                  insertText: '{t${1:table}, r${2:row}, c${2:col}, s${2:sht}}',
+                  insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+                  documentation: 'cell_reference',
+                },
+                {
+                  label: 'with',
+                  kind: monaco.languages.CompletionItemKind.Snippet,
+                  insertText: 'with ${1:partial expression}: ${2:expression};',
+                  insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+                  documentation: 'cell_reference',
+                },
+              ];
+              return { suggestions: suggestions };
+            },
+          };
+        };
+
+        this._config.monacoLoad = monaco => {
+          const id = 'dpm-xl';
+
+          monaco.languages.register({ id });
+          monaco.languages.setTokensProvider(id, new DPMXLTokenProvider());
+
+          const literalFg = '3b8737';
+          //const idFg = '344482';
+          const symbolsFg = '344482';
+          const keywordFg = '7132a8';
+          const errorFg = 'ff0000';
+
+          monaco.editor.defineTheme('dpm-xl-black', {
+            base: 'vs',
+
+            rules: [
+              { token: 'with.dpm-xl', foreground: keywordFg },
+              { token: 'group_by.dpm-xl', foreground: keywordFg },
+              { token: 'abs.dpm-xl', foreground: keywordFg },
+              { token: 'isnull.dpm-xl', foreground: keywordFg },
+
+              { token: 'boolean_literal.dpm-xl', foreground: literalFg },
+              { token: 'integer_literal.dpm-xl', foreground: literalFg },
+              { token: 'decimal_literal.dpm-xl', foreground: literalFg },
+              { token: 'percent_literal.dpm-xl', foreground: literalFg },
+              { token: 'string_literal.dpm-xl', foreground: literalFg },
+              { token: 'letters_numbers.dpm-xl', foreground: literalFg },
+
+              { token: 'and.dpm-xl', foreground: symbolsFg },
+              { token: 'or.dpm-xl', foreground: symbolsFg },
+              { token: 'xor.dpm-xl', foreground: symbolsFg },
+              { token: 'not.dpm-xl', foreground: symbolsFg },
+              { token: 'assign.dpm-xl', foreground: symbolsFg },
+              { token: 'eq.dpm-xl', foreground: symbolsFg },
+              { token: 'ne.dpm-xl', foreground: symbolsFg },
+              { token: 'lt.dpm-xl', foreground: symbolsFg },
+              { token: 'le.dpm-xl', foreground: symbolsFg },
+              { token: 'gt.dpm-xl', foreground: symbolsFg },
+              { token: 'ge.dpm-xl', foreground: symbolsFg },
+
+              { token: 'error.dpm-xl', foreground: errorFg },
+            ],
+            colors: {
+              'editor.foreground': '#000000',
+            },
+          });
+          monaco.languages.registerCompletionItemProvider('dpm-xl', getDpmXlCompletionProvider(monaco));
+        };
         if (typeof this._config.monacoPreLoad === 'function') {
           this._config.monacoPreLoad();
         }
@@ -104,6 +190,7 @@ export abstract class NuMonacoEditorBase implements AfterViewInit, OnChanges, On
             if (typeof this._config.monacoLoad === 'function') {
               this._config.monacoLoad(win.monaco);
             }
+
             this.initMonaco(this.options, true);
             resolve();
           },

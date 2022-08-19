@@ -16,3 +16,4 @@ declare var DataSet: any;
 declare var Slider: any;
 declare var hljs: any;
 declare var docsearch: any;
+declare module 'process/browser';
