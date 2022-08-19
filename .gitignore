@@ -10,7 +10,6 @@ yarn-error.log
 .tmp
 .lib
 *.iml
-/dist
 /src/dist
 .idea
 debug.log

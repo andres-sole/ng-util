@@ -1,0 +1,46 @@
+{
+  "name": "@ng-util/monaco-editor",
+  "version": "14.0.0",
+  "author": "cipchk<cipchk@qq.com>",
+  "description": "Monaco Code Editor for Angular",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ng-util/ng-util.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ng-util/ng-util/issues"
+  },
+  "homepage": "https://github.com/ng-util/ng-util/tree/master/packages/monaco-editor",
+  "keywords": [
+    "angular",
+    "util",
+    "Angular utilities",
+    "monaco-editor",
+    "monaco",
+    "angular standalone library"
+  ],
+  "sideEffects": false,
+  "module": "fesm2015/ng-util-monaco-editor.mjs",
+  "es2020": "fesm2020/ng-util-monaco-editor.mjs",
+  "esm2020": "esm2020/ng-util-monaco-editor.mjs",
+  "fesm2020": "fesm2020/ng-util-monaco-editor.mjs",
+  "fesm2015": "fesm2015/ng-util-monaco-editor.mjs",
+  "typings": "index.d.ts",
+  "exports": {
+    "./package.json": {
+      "default": "./package.json"
+    },
+    ".": {
+      "types": "./index.d.ts",
+      "esm2020": "./esm2020/ng-util-monaco-editor.mjs",
+      "es2020": "./fesm2020/ng-util-monaco-editor.mjs",
+      "es2015": "./fesm2015/ng-util-monaco-editor.mjs",
+      "node": "./fesm2015/ng-util-monaco-editor.mjs",
+      "default": "./fesm2020/ng-util-monaco-editor.mjs"
+    }
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  }
+}

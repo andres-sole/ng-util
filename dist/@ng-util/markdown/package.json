@@ -1,0 +1,48 @@
+{
+  "name": "@ng-util/markdown",
+  "version": "14.0.0",
+  "author": "cipchk<cipchk@qq.com>",
+  "description": "Vditor for Angular",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ng-util/ng-util.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ng-util/ng-util/issues"
+  },
+  "homepage": "https://github.com/ng-util/ng-util/tree/master/packages/markdown",
+  "keywords": [
+    "angular",
+    "util",
+    "Angular utilities",
+    "markdown",
+    "Vditor",
+    "angular standalone library"
+  ],
+  "dependencies": {
+    "@ng-util/util": "^14.0.0",
+    "@ng-util/lazy": "^14.0.0",
+    "tslib": "^2.3.0"
+  },
+  "module": "fesm2015/ng-util-markdown.mjs",
+  "es2020": "fesm2020/ng-util-markdown.mjs",
+  "esm2020": "esm2020/ng-util-markdown.mjs",
+  "fesm2020": "fesm2020/ng-util-markdown.mjs",
+  "fesm2015": "fesm2015/ng-util-markdown.mjs",
+  "typings": "index.d.ts",
+  "exports": {
+    "./package.json": {
+      "default": "./package.json"
+    },
+    ".": {
+      "types": "./index.d.ts",
+      "esm2020": "./esm2020/ng-util-markdown.mjs",
+      "es2020": "./fesm2020/ng-util-markdown.mjs",
+      "es2015": "./fesm2015/ng-util-markdown.mjs",
+      "node": "./fesm2015/ng-util-markdown.mjs",
+      "default": "./fesm2020/ng-util-markdown.mjs"
+    }
+  },
+  "sideEffects": false
+}
